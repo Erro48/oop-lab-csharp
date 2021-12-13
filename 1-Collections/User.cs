@@ -22,10 +22,7 @@ namespace Collections
 
         public string Username { get; }
 
-        public bool IsAgeDefined =>
-            Age == null
-                ? false
-                : true;
+        public bool IsAgeDefined => Age == null;
 
         // TODO implement missing methods (try to autonomously figure out which are the necessary methods)
     }
