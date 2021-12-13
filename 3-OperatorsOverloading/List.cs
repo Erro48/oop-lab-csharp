@@ -38,7 +38,7 @@ namespace OperatorsOverloading
         /// <returns>a new list with the given elements.</returns>
         public static implicit operator List<TValue>(TValue[] enumerable)
         {
-            throw new NotImplementedException();
+            return List.From(enumerable as IEnumerable<TValue>);
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace OperatorsOverloading
         /// <returns>a new list with only the given element.</returns>
         public static implicit operator List<TValue>(TValue element)
         {
-            throw new NotImplementedException();
+            return List.Of(element);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace OperatorsOverloading
         /// <returns>an array containing the elements of the list.</returns>
         public static explicit operator TValue[](List<TValue> list)
         {
-            throw new NotImplementedException();
+            return list.ToFlat().ToArray();
         }
 
         /// <summary>
@@ -72,7 +72,24 @@ namespace OperatorsOverloading
         /// </returns>
         public static bool operator ==(List<TValue> list1, List<TValue> list2)
         {
-            throw new NotImplementedException();
+            Console.WriteLine(list1 + " " + list2);
+            if (list1 is { } && list2 is { } && list1.Length != list2.Length)
+            {
+                return false;
+            }
+
+            TValue[] l1 = (TValue[])list1;
+            TValue[] l2 = (TValue[])list2;
+
+            for (int i = 0; i < l1.Length; i++)
+            {
+                if (!l1[i].Equals(l2[i]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -85,7 +102,7 @@ namespace OperatorsOverloading
         /// </returns>
         public static bool operator !=(List<TValue> list1, List<TValue> list2)
         {
-            throw new NotImplementedException();
+            return !(list1 == list2);
         }
 
         /// <summary>
