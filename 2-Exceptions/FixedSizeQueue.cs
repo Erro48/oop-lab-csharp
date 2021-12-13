@@ -1,6 +1,7 @@
+using System;
+
 namespace Exceptions
 {
-    // TODO understand the functioning of this class
     public class FixedSizeQueue : IFixedSizeQueue
     {
         private object[] _items;
@@ -19,8 +20,7 @@ namespace Exceptions
 
         public object GetFirst()
         {
-            // TODO ensure objects can only be retrieve if the item is queue is not empty
-            if (_firstIndex == 0)
+            if (_firstIndex >= _lastIndex)
             {
                 throw new EmptyQueueException();
             }
@@ -31,7 +31,7 @@ namespace Exceptions
 
         public void AddLast(object item)
         {
-            if (_lastIndex == Capacity)
+            if (Count == Capacity)
             {
                 throw new FullQueueException();
             }
