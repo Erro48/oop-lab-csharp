@@ -1,32 +1,55 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Net;
 
 namespace Collections
 {
     public class SocialNetworkUser<TUser> : User, ISocialNetworkUser<TUser>
         where TUser : IUser
     {
+        private IDictionary<TUser, string> _followed;
         public SocialNetworkUser(string fullName, string username, uint? age) : base(fullName, username, age)
         {
-            throw new NotImplementedException("TODO is there anything to do here?");
+            _followed = new Dictionary<TUser, string>();
         }
 
         public bool AddFollowedUser(string group, TUser user)
         {
-            throw new NotImplementedException("TODO add user to the provided group. Return false if the user was already in the group");
+            if (_followed.ContainsKey(user))
+            {
+                return false;
+            }
+            _followed.Add(new KeyValuePair<TUser, string>(user, group));
+            return true;
         }
 
         public IList<TUser> FollowedUsers
         {
             get
             {
-                throw new NotImplementedException("TODO construct and return the list of all users followed by the current users, in all groups");
+                IList<TUser> friends = new List<TUser>();
+                foreach (var keyValuePair in _followed)
+                {
+                    friends.Add(keyValuePair.Key);
+                }
+
+                return friends;
             }
         }
 
         public ICollection<TUser> GetFollowedUsersInGroup(string group)
         {
-            throw new NotImplementedException("TODO construct and return a collection containing of all users followed by the current users, in group");
+            ICollection<TUser> friends = new Collection<TUser>();
+            foreach (var keyValuePair in _followed)
+            {
+                if (keyValuePair.Value.Equals(group))
+                {
+                    friends.Add(keyValuePair.Key);
+                }
+            }
+
+            return friends;
         }
     }
 }
